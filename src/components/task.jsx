@@ -1,30 +1,77 @@
 import React, { Component } from "react";
 
 class Task extends Component {
-  render() {
+  state = {
+    description: "Click to edit",
+    isInEditMode: false
+  };
+
+  changeEditMode = () => {
+    this.setState({
+      isInEditMode: !this.state.isInEditMode
+    });
+  };
+
+  updateDescription = () => {
+    this.setState({
+      isInEditMode: false,
+      description: this.refs.textInput.value
+    });
+  };
+
+  renderEditView = () => {
     return (
-      <div>
-        <div className="row mb-1">
-          {/* Render children of this object */}
-          {this.props.children}
-        </div>
-        <div className="row mb-3">
+      <span className="col">
+        <div className="row">
           <div className="col-10">
             <input
               type="text"
               className="form-control"
-              id="taskDesc"
-              placeholder="Task description.."
+              defaultValue={this.state.description}
+              ref="textInput"
             />
           </div>
           <div className="col-1">
             <button
-              onClick={() => this.props.onEdit(this.props.task)}
-              className="btn btn-warning btn-m m-1"
+              className="btn-sm btn-warning"
+              onClick={this.changeEditMode}
             >
-              Edit
+              X
             </button>
           </div>
+          <div className="col-1">
+            <button
+              className="btn-sm btn-primary"
+              onClick={this.updateDescription}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </span>
+    );
+  };
+
+  renderDefaultView = () => {
+    console.log("defualt");
+    return (
+      <div className="col bg-white" onClick={this.changeEditMode}>
+        {this.state.description}
+      </div>
+    );
+  };
+
+  render() {
+    return (
+      <div>
+        <div className="row">
+          {/* Render children of this object */}
+          {this.props.children}
+        </div>
+        <div className="row justify-content-between mb-3">
+          {this.state.isInEditMode
+            ? this.renderEditView()
+            : this.renderDefaultView()}
           <div className="col-1">
             <button
               onClick={() => this.props.onDelete(this.props.task.id)}

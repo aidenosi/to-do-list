@@ -6,7 +6,7 @@ class TaskList extends Component {
     const { onAdd, tasks, onDelete, onEdit } = this.props;
 
     return (
-      <div>
+      <div className="m-2">
         <div className="row justify-content-center">
           <div className="col-2">
             <button onClick={onAdd} className="btn btn-primary btn-lg m-2">
@@ -18,7 +18,7 @@ class TaskList extends Component {
         {tasks.map(task => (
           <Task key={task.id} onDelete={onDelete} onEdit={onEdit} task={task}>
             {/*The <h4> is a Child of the Counter*/}
-            <h4>Task #{task.id}</h4>
+            <h4 className="m-2">Task #{task.id}</h4>
           </Task>
         ))}
       </div>
